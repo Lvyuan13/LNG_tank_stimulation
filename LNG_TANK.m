@@ -17,7 +17,7 @@ s=0.21;
 %%set required constants for iterative caculation
 %% set stimulation time and time limits for iteration
 itmax=80;   
-limit=220; %100s
+limit=22; %100s
 imax=limit/dt;  
 %% set initial values
 TV0=153;
@@ -65,7 +65,7 @@ for i=1:imax
     BOG(i)=BOG0/dt;
 end
 %pause
-%% 开始描述仿真并绘图
+%% results and figures
 figure(1);
 plot(time,TV);
 hold on;

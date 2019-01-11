@@ -69,22 +69,19 @@ hv1=(MV*hv+QVin-QVL)/MV;% in such condition the enthapy of updated gas phase
       BOG=MV-MV0-VV1*Dv1;
    end
 else     % there is gas evaporated from liquid, valid
-    %假设下压力的液体分化出气相，属于猜测范围内
-hv0=refpropm('H','P',Passume,'Q',1,fluid1,fluid2,fluid3,y0);%BIG的焓
-BIG=Q*ML;%注BIG已经是总的蒸发量，不用再乘以dt
-ML1=ML-BIG;%推出下一时刻新的液相值
+hv0=refpropm('H','P',Passume,'Q',1,fluid1,fluid2,fluid3,y0);%Boiled inside gas's enthapy
+BIG=Q*ML;
+% not that BIG is already total mass of evaporated gas, no need to mutipled
+% by dt as BIG*dt
+ML1=ML-BIG;%mass of liquid phase for next time point
 VL1=ML1/DL1;
 VV1=V-VL1;
-hv1=(BIG*hv0+MV*hv+QVin-QVL)/(BIG+MV);%经历了传热和进入BIG后的下一时刻气相焓
-%求传热后的总质量
+hv1=(BIG*hv0+MV*hv+QVin-QVL)/(BIG+MV);
+% ethapy of gas phase at next time point after heat transfer from ouside
+% and BIG input (evaporate from liquid)
 y1=(MV*y+BIG*y0)/(MV+BIG);
 [Dv1,Tv1]=refpropm('DT','P',Passume,'H',hv1,fluid1,fluid2,fluid3,y1);
-%QLin QVin QVL 的量级需要调整
-%BOG是此段时间内的总量
 M1=Dv1*VV1+DL1*VL1;
 BOG=ML+MV-M1;
 end
-   
-%% 进行求取气相
-
 end
